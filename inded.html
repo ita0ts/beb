@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Medidor de Bebedeira 🍺</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ffcc70, #ff8177);
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    textarea {
+      width: 80%;
+      height: 100px;
+      border-radius: 10px;
+      border: none;
+      padding: 10px;
+      font-size: 1rem;
+      resize: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    button {
+      margin-top: 15px;
+      background-color: #ff4b2b;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover {
+      background-color: #ff6f61;
+    }
+    .resultado {
+      margin-top: 20px;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🍻 Medidor de Bebedeira</h1>
+  <p>Digite uma mensagem e descubra o nível de "influência etílica" 😅</p>
+  <textarea id="mensagem" placeholder="Digite sua mensagem aqui..."></textarea><br>
+  <button onclick="calcular()">Analisar 🍺</button>
+  <div class="resultado" id="resultado"></div>
+
+  <script>
+    function calcular() {
+      const msg = document.getElementById("mensagem").value;
+      if (!msg.trim()) {
+        document.getElementById("resultado").innerHTML = "Digite alguma coisa primeiro 😅";
+        return;
+      }
+
+      // Regras de "zoeira"
+      let score = 0;
+      score += (msg.match(/[aeiou]{3,}/gi) || []).length * 10; // alongamentos tipo "toooma"
+      score += (msg.match(/[!?]{2,}/g) || []).length * 8; // exagero de pontuação
+      score += (msg.match(/kkkk+/gi) || []).length * 12; // risadas
+      score += (msg.match(/rs+/gi) || []).length * 6;
+      score += (msg.match(/(amo|te amo|saudade|ex|volta)/gi) || []).length * 15; // emocional
+      if (msg.length > 100) score += 10; // textão
+      if (/[A-Z]{5,}/.test(msg)) score += 15; // gritos
+      score = Math.min(score, 100);
+
+      let frase;
+      if (score < 20) frase = "Sóbrio como um juiz 👨‍⚖️";
+      else if (score < 40) frase = "Um copinho só... tranquilo 🍷";
+      else if (score < 60) frase = "Animado, mas ainda digitando bem 😏";
+      else if (score < 80) frase = "Já tá falando do ex e mandando áudio 🎤";
+      else frase = "100% bêbado(a): celular devia estar confiscado 😂";
+
+      document.getElementById("resultado").innerHTML = `Nível de bebedeira: ${score}%<br>${frase}`;
+    }
+  </script>
+</body>
+</html>
